@@ -15,5 +15,14 @@ envsubst < k8s/deployment.yml | kubectl apply -f -
 ## Test on K8S
 
 ```bash
-kubectl port-forward service/webapi-service 8000:80
+kubectl apply -f k8s/deployment.yml
+kubectl apply -f k8s/gateway.yml
+kubectl apply -f k8s/destination-rule.yml
+kubectl apply -f k8s/virtual-service.yml
+kubectl annotate gateway webapi-gateway networking.istio.io/service-type=ClusterIP --namespace=default
+kubectl port-forward svc/webapi-gateway-istio 8080:80
+```
+
+```bash
+while true; do curl http://localhost:8080/version; echo; sleep 0.5; done;
 ```

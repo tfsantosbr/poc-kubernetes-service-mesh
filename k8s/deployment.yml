@@ -1,61 +1,72 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapi
+  name: webapi-v1
   labels:
     app: webapi
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: webapi
+      version: v1
   template:
     metadata:
       labels:
         app: webapi
+        version: v1
     spec:
       containers:
         - name: webapi
-          image: tfsantosbr/webapi:${IMAGE_TAG}
+          image: tfsantosbr/webapi:v1
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: webapi-configmap
           resources:
-            requests:
-              cpu: 50m
-              memory: 100Mi
             limits:
               cpu: 150m
               memory: 200Mi
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            timeoutSeconds: 5
-          startupProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            periodSeconds: 5
-            timeoutSeconds: 5
-            failureThreshold: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-v2
+  labels:
+    app: webapi
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapi
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: webapi
+        version: v2
+    spec:
+      containers:
+        - name: webapi
+          image: tfsantosbr/webapi:v2
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 150m
+              memory: 200Mi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapi-service
-spec:
-  selector:
+  name: webapi
+  labels:
     app: webapi
-  type: LoadBalancer
+    service: webapi
+spec:
   ports:
-    - name: webapi-service
-      protocol: TCP
+    - name: http
       port: 80
       targetPort: 8080
+  selector:
+    app: webapi
