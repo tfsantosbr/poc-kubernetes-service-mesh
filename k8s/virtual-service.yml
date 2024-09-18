@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: webapi
+  namespace: service-mesh
 spec:
   hosts:
     - webapi
@@ -10,8 +11,8 @@ spec:
         - destination:
             host: webapi
             subset: v1
-          weight: 10
+          weight: 50
         - destination:
             host: webapi
             subset: v2
-          weight: 90
+          weight: 50
