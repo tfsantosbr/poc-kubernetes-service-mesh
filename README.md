@@ -82,6 +82,23 @@ while true; do curl http://webapi/version; echo; sleep 0.5; done;
 while true; do curl http://localhost/version; echo; sleep 0.5; done;
 ```
 
+## Configurando Dominios Locais
+
+Antes de executar os testes de versões por URL e para os testes do consistent hash
+é necessário realizar configurações locais de dominio
+
+```bash
+# C:\Windows\System32\drivers\etc\hosts
+127.0.0.1 version1.tfsantos.com version2.tfsantos.com hash.tfsantos.com
+```
+
+## URL Versions Tests
+
+```bash
+curl http://version1.tfsantos.com/version # deve cair sempre na v1
+curl http://version2.tfsantos.com/version # deve cair sempre na v2
+```
+
 ## Consistent Hash Tests
 
 ```bash
