@@ -76,6 +76,12 @@ Execute o comando `curl` e veja a resposta de acordo com a configuração do `vi
 while true; do curl http://webapi/version; echo; sleep 0.5; done;
 ```
 
+## Tests on K8S (com gateway)
+
+```bash
+while true; do curl http://localhost/version; echo; sleep 0.5; done;
+```
+
 ## Limpar todos os recursos
 
 Para limpar todos os recursos instalados e remover o namespace, execute o comando abaixo:

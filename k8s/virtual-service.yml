@@ -5,14 +5,16 @@ metadata:
   namespace: service-mesh
 spec:
   hosts:
-    - webapi
+    - "*"
+  gateways:
+    - webapi-gateway
   http:
     - route:
         - destination:
             host: webapi
             subset: v1
-          weight: 50
+          weight: 100
         - destination:
             host: webapi
             subset: v2
-          weight: 50
+          weight: 0
