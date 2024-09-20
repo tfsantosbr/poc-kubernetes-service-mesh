@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webapi-consistent-hash
+  namespace: service-mesh
+spec:
+  hosts:
+    - "hash.tfsantos.com"
+  gateways:
+    - webapi-gateway
+  http:
+    - route:
+        - destination:
+            host: webapi
+            subset: all
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: webapi-consistent-hash
+  namespace: service-mesh
+spec:
+  host: webapi
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpHeaderName: "x-user-id"
+  subsets:
+    - name: all
+      labels:
+        app: webapi

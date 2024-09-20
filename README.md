@@ -82,6 +82,18 @@ while true; do curl http://webapi/version; echo; sleep 0.5; done;
 while true; do curl http://localhost/version; echo; sleep 0.5; done;
 ```
 
+## Consistent Hash Tests
+
+```bash
+# testando sem passar o header x-user-id
+# retornará versões aleatórias
+curl http://hash.tfsantos.com/version
+
+# testando com o header x-user-id=1
+# retornará a mesma versão para o mesmo valor do header
+curl --header "x-user-id: 1" http://hash.tfsantos.com/version
+```
+
 ## Limpar todos os recursos
 
 Para limpar todos os recursos instalados e remover o namespace, execute o comando abaixo:
