@@ -106,14 +106,14 @@ Antes de executar os testes de versões por URL e para os testes do consistent h
 
 ```bash
 # C:\Windows\System32\drivers\etc\hosts
-127.0.0.1 version1.tfsantos.com version2.tfsantos.com hash.tfsantos.com
+127.0.0.1 blue.tfsantos.com green.tfsantos.com hash.tfsantos.com
 ```
 
 ## URL Versions Tests
 
 ```bash
-curl http://version1.tfsantos.com/version # deve cair sempre na v1
-curl http://version2.tfsantos.com/version # deve cair sempre na v2
+curl http://blue.tfsantos.com/version # deve cair sempre na v1
+curl http://green.tfsantos.com/version # deve cair sempre na v2
 ```
 
 ## Consistent Hash Tests
@@ -126,6 +126,7 @@ curl http://hash.tfsantos.com/version
 # testando com o header x-user-id=1
 # retornará a mesma versão para o mesmo valor do header
 curl --header "x-user-id: 1" http://hash.tfsantos.com/version
+curl --header "x-user-id: 2" http://hash.tfsantos.com/version
 ```
 
 ## Limpar todos os recursos

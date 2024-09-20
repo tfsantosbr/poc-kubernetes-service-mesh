@@ -26,7 +26,7 @@ metadata:
   namespace: service-mesh
 spec:
   hosts:
-    - "version1.tfsantos.com"
+    - "blue.tfsantos.com"
   gateways:
     - webapi-gateway
   http:
@@ -42,7 +42,7 @@ metadata:
   namespace: service-mesh
 spec:
   hosts:
-    - "version2.tfsantos.com"
+    - "green.tfsantos.com"
   gateways:
     - webapi-gateway
   http:
