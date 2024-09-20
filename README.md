@@ -24,9 +24,13 @@ docker push tfsantosbr/webapi:$IMAGE_TAG
 
 ## Deploy no Kubernetes
 
-Configure as imagens dos containers em ambos os Deployments
+Configure as imagens dos containers em ambos os Deployments.
+Especifique os labels em `spec.template.metadata.labels`, pois o Istio usa estes labels
+para fazer o match com as Destionation Rules.
 
 ```yml
+# k8s/Deployment.yml
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,6 +38,12 @@ metadata:
   template:
     ...
     spec:
+      template:
+        metadata:
+          labels:
+            app: webapi
+            version: v1 #especificar versao
+      ...
       containers:
         - name: webapi
           image: tfsantosbr/webapi:v1 # trocar a imagem versionada aqui
@@ -45,6 +55,12 @@ metadata:
   template:
     ...
     spec:
+      template:
+        metadata:
+          labels:
+            app: webapi
+            version: v2 #especificar versao
+      ...
       containers:
         - name: webapi
           image: tfsantosbr/webapi:v2 # trocar a imagem versionada aqui
@@ -60,6 +76,7 @@ kubectl apply -f k8s/
 
 # checar os manifestos criados
 kubectl get all -n service-mesh
+kubectl get gateways.networking.istio.io -n service-mesh
 ```
 
 ## Test on K8S (sem gateway)
@@ -85,7 +102,7 @@ while true; do curl http://localhost/version; echo; sleep 0.5; done;
 ## Configurando Dominios Locais
 
 Antes de executar os testes de versões por URL e para os testes do consistent hash
-é necessário realizar configurações locais de dominio
+é necessário realizar configurações locais de dominio.
 
 ```bash
 # C:\Windows\System32\drivers\etc\hosts
