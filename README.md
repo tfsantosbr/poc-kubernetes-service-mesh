@@ -129,6 +129,14 @@ curl --header "x-user-id: 1" http://hash.tfsantos.com/version
 curl --header "x-user-id: 2" http://hash.tfsantos.com/version
 ```
 
+## AB Test
+
+```bash
+kubectl apply -f k8s/abtest.yml
+curl --header "email: user@cocacola.com" http://abtest.tfsantos.com/version
+curl --header "email: user@email.com" http://abtest.tfsantos.com/version
+```
+
 ## Limpar todos os recursos
 
 Para limpar todos os recursos instalados e remover o namespace, execute o comando abaixo:

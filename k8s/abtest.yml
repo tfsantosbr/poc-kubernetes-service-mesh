@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webapi-abtest
+  namespace: service-mesh
+spec:
+  hosts:
+    - "abtest.tfsantos.com"
+  gateways:
+    - webapi-gateway
+  http:
+    - match:
+        - headers:
+            email:
+              regex: ".*@cocacola\\.com$"
+      route:
+        - destination:
+            host: webapi
+            subset: abtestv2
+    - route:
+        - destination:
+            host: webapi
+            subset: abtestv1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: webapi-abtest
+  namespace: service-mesh
+spec:
+  host: webapi
+  subsets:
+    - name: abtestv1
+      labels:
+        version: v1
+    - name: abtestv2
+      labels:
+        version: v2
