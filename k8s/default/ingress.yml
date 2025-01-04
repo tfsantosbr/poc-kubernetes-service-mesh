@@ -4,6 +4,7 @@ metadata:
   name: webapi-ingress
   namespace: default-namespace
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: ca-cluster-issuer
 spec:
   ingressClassName: nginx
